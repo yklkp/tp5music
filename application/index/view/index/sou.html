@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+   <link rel="icon" href="/images/favicon.ico" mce_href="/images/favicon.ico" type="image/x-icon">
+  <title>静听音乐</title>
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/music.css">
+  <link rel="stylesheet" href="/css/slider.css">
+  <link rel="stylesheet" href="/css/css/player.css">
+  <link rel="stylesheet" href="/css/font-awesome.min.css">
+  <script type="text/javascript" src="/js/canvas-particle.js"></script>
+  <style>
+    input[required]:invalid, input:focus:invalid, textarea[required]:invalid, textarea:focus:invalid{box-shadow: none;}
+	li{list-style:none;}
+	.lib a{font-size:16px;}
+	.lib a:hover{text-decoration:underline;}
+    </style>
+</head>
+<body>
+<!-- 背景div -->
+<div id="mydiv" style="min-height:500px;">
+<header>
+  <div class="container">
+  
+    <div class="navbar-header">
+      <a href="" class="navbar-brand">
+        <img src="/images/logo.png" alt="">
+      </a>
+    </div>
+    <nav>
+      <ul class="nav navbar-nav navbar-link">
+        <li ><a href="index.html" target="_blank">首页</a></li>
+        <li class="active"><a href="{:url('find')}">发现音乐</a></li>
+        <li><a href="{:url('love')}" target="_blank">我的歌单</a></li>
+        <li><a href="{:url('bolg')}" target="_blank">技术博客</a></li>
+        <li><a href="{:url('shop')}" target="_blank">耳机专场</a></li>
+      </ul>
+	  <ul class="nav navbar-nav navbar-right navbar-sm" style="float:left;margin-left:80px;">
+        
+         <form action="{:url('sou')}" method="post" >
+            <input type="text" name="name" placeholder="搜索自己喜欢的歌曲..." required="未输入" class="search-input">
+            <button type="submit" style="border:none;background:none;position:relative;left:-35px;"><i class="fa fa-search" aria-hidden="true" ></i></button>
+          </form>
+       
+      </ul>
+
+      <ul style="float:right;width:240px;height:65px;">
+        {if condition="$Request.session.username"}
+        <li style="float:left;position:relative;top:15px;">
+          <a href="" style="width:25px;height:20px;margin-top:10px;margin-left: 10px;">
+            <img src="/images/25.jpg" style="width:40px;height:40px;border-radius:50%;"/>
+          </a>
+        </li>
+        <li style="font-size:14px;width:60px;float:left;position:relative;top:25px;left:20px;letter-spacing: 1px;padding: 0 1.3em;"><a href="" >{$Request.session.username}</a></li>
+          {if condition="$Request.session.undertype !== 0"}
+          <li style="font-size:14px;float:left;position:relative;top:25px;letter-spacing: 1px;"><a href="{:url('admin/index/login')}">管理中心</a></li>
+          {/if}
+          <li style="font-size:14px;float:left;position:relative;top:25px;left:15px;letter-spacing: 1px;"><a href="{:url('index/user/outlogin')}">退出</a></li>
+        {else}
+        <li style="font-size:14px;position:relative;top:20px;left:120px;letter-spacing: 1px;"><a href="{:url('index/user/login')}">注册 / 登录</a></li>
+        {/if}
+      </ul>
+    </nav>
+  </div>
+</header>
+<!-- <div class="container-sm player-wrap">
+  <div id="music-player" class="aplayer"></div>
+</div> -->
+
+ <div class="container-sm box">
+ <div id="QPlayer">
+
+<div id="pContent">
+	<div id="player">
+		<span class="cover"></span>
+		<div class="ctrl">
+			<div class="musicTag marquee">
+				<strong>Title</strong>
+				 <span> - </span>
+				<span class="artist">Artist</span>
+			</div>
+			<div class="progress">
+				<div class="timer left">0:00</div>
+				<div class="contr">
+					<div class="rewind icon"></div>
+					<div class="playback icon"></div>
+					<div class="fastforward icon"></div>
+				</div>
+				<div class="right">
+					<!-- <div class="liebiao icon"></div> -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- <div class="ssBtn">
+	        <div class="adf"></div>
+    </div> -->
+</div>
+<ol id="playlist">
+</ol>
+</div>
+
+ </div>
+</div>
+ 
+<footer>
+  <div class="container">
+    <div class="copyright">
+      <p>Copyright © <span class="update-year">2016</span> Chen Xiaodong - All Rights Reserved&nbsp;&nbsp;|&nbsp;&nbsp;千锋教育
+       音乐盒</p>
+    </div>
+  </div>
+</footer>
+</div>
+<script src="http://cdn.bootcss.com/aplayer/1.5.8/APlayer.min.js"></script>
+<script src="/js2/ajax.js"></script>
+<script src="/js2/js/jquery.min.js"></script>
+<script src="/js2/js/jquery.marquee.min.js"></script>
+<script>
+	
+  var ap = new APlayer({
+    element: document.getElementById('music-player'), // Optional, player element
+    narrow: false,                                    // Optional, narrow style
+    autoplay: false,                                   // Optional, autoplay song(s), not supported by mobile browsers
+    showlrc: 0,                                       // Optional, show lrc, can be 0, 1, 2, see: ###With lrc
+    mutex: true,                                      // Optional, pause other players when this player playing
+    theme: '#B72712',                                 // Optional, theme color, default: #b7daff
+    mode: 'circulation',                              // Optional, play mode, `random` `single` `circulation`(loop) `order`(no loop), default: `circulation`
+    preload: 'metadata',                              // Optional, the way to load music, can be 'none' 'metadata' 'auto', default: 'auto'
+    listmaxheight: '513px',                           // Optional, max height of play list
+    music: {                                          // Required, music info
+      title: "{$data[0]['name']}",                                 // Required, music title
+      author: "{$data[0]['songName']}",                          // Required, music author
+      url: "{$data[0]['url']}",  // Required, music url
+      pic: '/images/logo.png'  // Optional, music picture
+    }
+  });
+  
+ 
+
+var aud = document.getElementById("aud");
+
+var img = document.getElementById("playpause");
+img.onclick = function() {
+    if (aud.paused) {
+        aud.play();
+    } else {
+        aud.pause();
+    }
+}
+aud.addEventListener("play", function (e) {
+    img.src="/images/zan.gif";
+}, false);
+aud.addEventListener("pause", function (e) {
+   
+	 img.src="/images/bo.gif";
+}, false);
+
+	
+	
+
+
+
+
+
+
+function sou(i,e)
+{
+	
+	var flag = false;
+    var plock = false;
+	var Aspan = document.getElementsByClassName('span1');
+	//console.log(Aspan);
+	if(e == null){
+	alert('请您先登录');
+	return false;
+	}
+	//var span = document.getElementsByClassName('span1');
+	
+	//console.log(data)
+	ajax.request({
+        url:"{:url('ajaxs')}?id=" + i + "&uid=" + e,
+        type:'GET',
+        jsonp:'callback',
+		dataType:'text',
+		//data:{name:12345},
+        callback:function(data){
+		var obj = JSON.parse(data);
+		//alert(obj);
+		if(obj.state == 1){
+			alert('× 你已经收藏该歌曲')
+		}else{
+			alert('收藏成功');
+		}
+        }
+    });
+	
+	
+	}
+
+	
+	
+	
+	
+	
+</script>
+
+<script>
+	var	playlist = [
+{foreach $data as $v}
+{title:"{$v['name']}",artist:"{$v['songName']}",mp3:"{$v['url']}",cover:"http://p4.music.126.net/7VJn16zrictuj5kdfW1qHA==/3264450024433083.jpg?param=106x106",},
+{/foreach}
+
+];
+	
+	
+		{foreach $data as $va}
+		 var item = playlist;
+		 $('#playlist').append('<li class="lib" style="overflow:hidden;"><strong style="margin-left: 5px;"><a href="{:url('play')}?id={$va['id']}">{$va['name']}</a></strong><span style="float: right;" class="artist"><a href="{:url('sou1')}?name={$va['songName']}">{$va['songName']}</a></span></li>');
+		 if (item.mp3 == "") {
+			 $('#playlist li').eq(i).css('color', '#ddd');
+		 }
+	{/foreach}
+
+
+
+  var isRotate = true;
+  var autoplay = false;
+</script>
+<script src="/js2/js/player.js"></script>
+<script>
+
+function bgChange(){
+	var lis= $('.lib');
+	for(var i=0; i<lis.length; i+=2)
+	lis[i].style.background = 'rgba(246, 246, 246, 0.5)';
+}
+window.onload = bgChange;
+</script>
+<script type="text/javascript">
+    window.onload = function() {
+        //配置
+        var config = {
+            vx: 4,  //小球x轴速度,正为右，负为左
+            vy: 4,  //小球y轴速度
+            height: 2,  //小球高宽，其实为正方形，所以不宜太大
+            width: 2,
+            count: 200,   //点个数
+            color: "121, 162, 185",   //点颜色
+            stroke: "218 ,112 ,214",    //线条颜色
+            dist: 6000,   //点吸附距离
+            e_dist: 20000,  //鼠标吸附加速距离
+            max_conn: 10  //点到点最大连接数
+        }
+
+        //调用
+        CanvasParticle(config);
+    }
+</script>
+
+
+
+</body>
+</html>

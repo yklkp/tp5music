@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>我的歌单</title>
+   <link rel="icon" href="/images/favicon.ico" mce_href="images/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/category.css">
+  <link rel="stylesheet" href="/css/font-awesome.min.css">
+  <style>
+  
+  </style>
+</head>
+<body>
+<header>
+  <div class="container">
+    <div class="navbar-header">
+      <a href="{:url('index')}" class="navbar-brand">
+        <img src="/images/logo.png" alt="">
+      </a>
+    </div>
+    <nav>
+      <ul class="nav navbar-nav navbar-link">
+        <li><a href="{:url('index')}">首页</a></li>
+        <li><a href="{:url('find')}">发现音乐</a></li>
+        <li class="active"><a href="{:url('love')}">我的歌单</a></li>
+        <li><a href="{:url('bolg')}">技术博客</a></li>
+        <li><a href="{:url('shop')}">耳机专场</a></li>
+      </ul>
+    </nav>
+  </div> 
+</header>
+{if empty($Request.session.uid)}
+<div class="div_1">
+
+			<img src="/images/d.png" width="250" />
+			<p class="pp">对不起，您还未登录。<p>
+			<a href="{:url('index/user/login')}"><span class="s">立刻点击登录</span></a>
+
+</div>
+
+{else /}
+ <div class="container-sm category-header-wrap">
+  <div class="category-header-banner">
+    <div class="img"
+         style="background-image: url('/images/start.jpg')">
+         {foreach $re as $v}
+         {if !empty($v['picture'])}
+		<img class="imgi" src="{$v['picture']}" width="90"  height="90" >
+		{else}
+		<img class="imgi" src="/images/25.jpg" width="90"  height="90" >
+		{/if}
+		{/foreach}
+		<div class="dddd">
+		<ul class="div2">
+			<li><b>昵称：</b>{$re[0]['username']}</li>
+			<li><b>星座：</b>{$re[0]['star']}</li>
+			<li><b>积分：</b>{$re[0]['counts']}</li>
+			{if !empty($data)}
+			<li><b>收藏歌曲数量：</b>{$s = count($data)}</li>
+			{else}
+			<li><b>收藏歌曲数量：</b>0</li>
+			{/if}
+			<li><b>个性签名：</b>{$re[0]['words']}</li>
+		</ul>
+		
+		</div>
+      <div class="mask"></div>
+    </div>
+	<a href="javascript:" onclick="xian()" style="color:#fff;"><span class="a">+添加歌单</span class="a"></a>
+  </div>
+</div> 
+<!-- 添加歌单 -->
+<div class="div_11" id="div_1">
+	<div class="x"><a href="javascript:" onclick="cha()"><span id="cha">×</span></a></div>
+	<form action="#" method="post" onsubmit="return add({$Request.session.uid})" class="shu" name="fm">
+
+		歌单名字：<input type="text" name="ge"><br /><br />
+		<input type="submit" value="提交">
+	</form>
+</div>
+<!-- 添加结束 -->
+<!-- 移动歌单 -->
+<div class="div_12" id="div_2">
+	<div class="x1" > <font color="#fff"> &nbsp;移动到 </font><a href="javascript:" id="cha1" ><span id="cha">×</span></a></div>
+	<div>
+	
+	<form action="#" method="post" onsubmit="return add1()" class="shu1" name="fmw">
+	
+	{foreach $gedan as $s}
+		{if $s['aid'] == 1}
+		<label><input type="radio" name="ge" value="{$s['aid']}"/>{$s['class']}</label>  <br />
+		{/if}
+		{if $s['uid'] == $Request.session.uid}
+		<label><input type="radio" name="ge" value="{$s['aid']}"/>{$s['class']}</label>  <br />
+		{/if}
+		
+	{/foreach}
+	<br />
+		<input type="submit" value="提交" style="margin-bottom:50px;">
+	</form>
+	</div>
+<!-- 移动结束 -->
+</div>
+<!-- 删除歌单 -->
+<div class="div_13" id="div_4">
+	<div class="x1" > </div>
+	<span>删除板块和里面的全部歌曲！</span><br />
+	<span id="info"></span><br />
+	<a href="javascript:" id="shan" style="position:relative;top:10px;right:63px;">确定</a>
+	<a href="javascript:" id="qu" style="position:relative;top:10px;right:-40px;">取消</a>
+	</div>
+<!-- 删除结束 -->
+{foreach $e as $va}
+{if $va['aid'] == 1}
+ <div class="container-sm box">
+
+  <div class="main">
+  
+    <div class="main-wrap">
+	
+      <div class="content-box">
+	  
+        <div class="piano-list">
+          <div class="content-header">
+            <h2><i class="fa fa-music red"></i>{$va['class']}</h2>
+          </div>
+		
+          <ul class="music-list clearfix">
+		    {foreach $re1 as $c}
+			{if $c['aid'] == $va['aid']}
+		  {foreach $data as $value}
+			{if $value['id'] == $c['songId']}
+            <li>
+              <div class="u-cover">
+               
+                <a title="" href="{:url('play')}?id={$value['id']}"> <img src="{$value['pi']}"></a>
+              </div>
+              <p class="dec">
+                <a title="" href="{:url('play')}?id={$value['id']}">{$value['name']}</a>
+              </p>
+              <div class="author">{$value['songName']}<a href="javascript:" onclick="move({$c['id']},{$Request.session.uid})"><font size="4" style="position:relative;left:60px;">+</font></a></div>
+            </li>
+			{/if}
+			{/foreach}
+			{/if}
+           {/foreach}
+          </ul>
+		 
+        </div>
+		
+      </div>
+	   
+    </div>
+	
+  </div>
+ 
+</div> 
+{/if}
+
+{if $va['uid'] == $Request.session.uid}
+ <div class="container-sm box">
+
+  <div class="main">
+  <a href="javascript:" onclick="del({$va['aid']},'{$va['class']}')"><span style="float:right; position:relative;top:20px;right:50px;">删除</span></a>
+    <div class="main-wrap">
+	
+      <div class="content-box">
+	  
+        <div class="piano-list">
+          <div class="content-header">
+            <h2><i class="fa fa-music red"></i>{$va['class']}</h2>
+          </div>
+		
+          <ul class="music-list clearfix">
+		    {foreach $re1 as $c}
+			{if $c['aid'] == $va['aid']}
+		  {foreach $data as $value}
+			{if $value['id'] == $c['songId']}
+            <li>
+              <div class="u-cover">
+               
+                <a title="" href="{:url('play')}?id={$value['id']}"> <img src="{$value['pi']}"></a>
+              </div>
+              <p class="dec">
+                <a title="" href="{:url('play')}?id={$value['id']}">{$value['name']}</a>
+              </p>
+              <div class="author">{$value['songName']}<a href="javascript:" onclick="move({$c['id']},{$Request.session.uid})"><font size="4" style="position:relative;left:60px;">+</font></a></div>
+            </li>
+			{/if}
+			{/foreach}
+			{/if}
+           {/foreach}
+          </ul>
+		 
+        </div>
+		
+      </div>
+	   
+    </div>
+	
+  </div>
+ 
+</div> 
+{/if}
+{/foreach}
+{/if}
+<footer>
+  <div class="container">
+    <div class="copyright">
+       <p>Copyright © 静聴网，静聴时间的声音<span style="color:darkred;"><<一杯敬远方，一杯敬过往>></span><span> 制作人：凯哥-贱坤</span></p>
+    </div>
+  </div>
+</footer>
+</body>
+<script src="/js/ajax.js"></script>
+<script>
+var ii;
+var ss;
+var ban;
+function xian(){
+var  div =document.getElementById('div_1');
+	div.style.display = "block";
+}
+function cha(){
+var  div =document.getElementById('div_1');
+	div.style.display = "none";
+}
+function add(i)
+{	
+	var fm = document.forms['fm'].ge.value;
+	var  div =document.getElementById('div_1');
+	if(fm == ""){
+	alert('请输入内容');
+	return false;
+	}
+	ajax.request({
+        url:"{:url('addd')}?name=" + fm + "&uid=" + i,
+        type:'GET',
+        jsonp:'callback',
+		dataType:'text',
+        callback:function(data){
+		<!-- alert(data); -->
+		var obj = JSON.parse(data);
+		if(obj.state == 1){
+			alert('添加成功');
+		}
+        }
+    });
+	
+	alert('添加成功');
+	div.style.display = "none";
+	location.reload([bForceGet]);
+	return false;
+}
+
+function move(i,e)
+{
+	 ii = i;
+	 ss = e;
+	
+	var adiv = document.getElementById('div_2');
+	var cha = document.getElementById('cha1');
+	
+	adiv.style.display="block";
+
+
+	cha.onclick = function(){
+	adiv.style.display = "none";}
+	
+}
+
+function add1()
+{
+	var fm = document.forms['fmw'].ge.value;
+	var adiv = document.getElementById('div_2');
+	
+	
+	ajax.request({
+        url:"{:url('move')}",
+        type:'GET',
+        jsonp:'callback',
+		dataType:'text',
+		data:{'id':ii,'uid':ss,'class':fm},
+        callback:function(data){
+		  
+		var obj = JSON.parse(data);
+		
+		if(obj.state == 1){
+			//alert('移动成功');
+			//location.reload([bForceGet]);
+			
+		}
+        }
+    });
+	alert('移动成功');
+	adiv.style.display ="none";
+	location.reload([bForceGet]);
+	return false;
+}
+
+function del(i,e)
+{
+	
+	var adiv = document.getElementById('div_4');
+	var shan = document.getElementById('shan');
+	var qu = document.getElementById('qu');
+	var span = document.getElementById('info');
+	span.innerHTML = e;
+	
+	adiv.style.display = "block";
+	qu.onclick = function(){
+	adiv.style.display = "none";}
+	shan.onclick = function(){
+		ajax.request({
+        url:"{:url('dell')}",
+        type:'GET',
+        jsonp:'callback',
+		dataType:'text',
+		data:{'aid':i},
+        callback:function(data){
+		//var obj = JSON.parse(data);
+		if(data.state == 1){
+		}	
+		alert('删除成功');
+		adiv.style.display = "none";
+		location.replace("{:url('love')}") ; 
+        }
+    });
+	
+	}
+
+}
+
+
+</script>
+</html>

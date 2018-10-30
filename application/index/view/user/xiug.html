@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title></title>
+   <link rel="icon" href="/images/favicon.ico" mce_href="images/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/category.css">
+   <link rel="stylesheet" href="/css/slider.css">
+  <link rel="stylesheet" href="/css/font-awesome.min.css">
+  <style>
+  
+     input[required]:invalid, input:focus:invalid, textarea[required]:invalid, textarea:focus:invalid{box-shadow: none;}
+	li{list-style:none;}
+  .ul_1{margin-top:10px;}
+	.ul_1 li{float:left; padding: 5px 11px; }
+  .ul_1 li:hover{
+	border:1px solid red;
+	color:#fff;
+  }
+  .ul_22 li{float:left; padding:10px 10px;}
+  .ul_22 a:hover{text-decoration:underline;}
+  
+  .xiu{
+  
+	width:100%;
+	height:auto;
+  }
+	.one{
+	width:33%;
+	height:40px;
+	background-color:#404969;
+	}
+	.two{
+	width:33%;
+	height:40px;
+	background-color:#BDE4F4;
+	}
+	.three{
+	width:33%;
+	height:40px;
+	background-color:#DC552C;
+	}
+	
+	.xiu ul{
+	width:100%;
+	height:40px;
+	
+	}
+	.xiu li {
+	float:left;
+	padding:10px 131px;
+	color:#fff;
+	}
+	
+	.img{
+	width:60%;
+	height:500px;
+	}
+  </style>
+  
+</head>
+<body>
+<!-- 导航栏 -->
+<header>
+  <div class="container">
+    <div class="navbar-header">
+      <a href="{:url('index')}" class="navbar-brand">
+        <img src="/images/logo.png" alt="">
+      </a>
+    </div>
+  <nav>
+      <ul class="nav navbar-nav navbar-link">
+        <li class="active"><a href="{:url('index/index/index')}">首页</a></li>
+        <li ><a href="{:url('index/index/find')}">发现音乐</a></li>
+        <li><a href="{:url('index/index/love')}">我的歌单</a></li>
+        <li><a href="{:url('index/index/bolg')}">技术博客</a></li>
+        <li><a href="{:url('index/index/shop')}">耳机专场</a></li>
+      </ul>
+	  <ul class="nav navbar-nav navbar-right navbar-sm" style="float:left;margin-left:80px;">
+        
+         <form action="{:url('sou')}" method="post" >
+            <input type="text" name="name" placeholder="搜索自己喜欢的歌曲..." required="未输入" class="search-input">
+            <button type="submit" style="border:none;background:none;position:relative;left:-35px;"><i class="fa fa-search" aria-hidden="true" ></i></button>
+          </form>
+       
+      </ul>
+
+      <ul style="float:right;width:240px;height:65px;">
+        {if condition="$Request.session.username"}
+       {foreach $re as $v}
+        {if !empty($v['picture'])}
+        <li style="float:left;position:relative;top:15px;">
+          <a href="{:url('index/user/xiug')}" style="width:25px;height:20px;margin-top:10px;margin-left: 10px;">
+            <img src="{$v['picture']}" style="width:40px;height:40px;border-radius:50%;"/>
+          </a>
+        </li>
+        {else}
+        <li style="float:left;position:relative;top:15px;">
+          <a href="{:url('index/user/xiug')}" style="width:25px;height:20px;margin-top:10px;margin-left: 10px;">
+            <img src="/images/25.jpg" style="width:40px;height:40px;border-radius:50%;"/>
+          </a>
+        </li>
+        {/if}
+        {/foreach}
+        <li style="font-size:14px;width:60px;float:left;position:relative;top:25px;left:20px;letter-spacing: 1px;padding: 0 1.3em;"><a href="" >{$Request.session.username}</a></li>
+          {if condition="$Request.session.undertype !== 0"}
+          <li style="font-size:14px;float:left;position:relative;top:25px;letter-spacing: 1px;"><a href="{:url('admin/index/login')}">管理中心</a></li>
+          {/if}
+          <li style="font-size:14px;float:left;position:relative;top:25px;left:15px;letter-spacing: 1px;"><a href="{:url('index/user/outlogin')}">退出</a></li>
+        {else}
+        <li style="font-size:14px;position:relative;top:20px;letter-spacing: 1px;"><a href="{:url('index/user/login')}">注册 / 登录</a></li>
+        {/if}
+      </ul>
+    </nav>
+  </div>
+</header>
+<div class="container-sm box">
+	<div class="xiu">
+		<!-- div class="one"> 修改头像</div>
+		<div class="two"> 修改资料</div>
+		<div class="three"> 修改密码</div> -->
+	<ul>
+		<a href="{:url('index/user/xiug')}"><li style="background-color:#DC552C">修改头像</li></a>
+		<a href="{:url('index/user/mi')}"><li style="background-color:#BDE4F4">修改密码</li></a>
+		<a href="{:url('index/user/zi')}"><li style="background-color:#BDE4F4">修改资料</li></a>
+	</ul>
+	<div class="img">
+  {foreach $re as $v}
+        {if !empty($v['picture'])}
+        <li style="float:left;position:relative;top:15px;left:-150px;">
+          <a href="{:url('index/user/xiug')}" style="width:25px;height:20px;margin-top:10px;margin-left: 10px;">
+            <img src="{$v['picture']}" style="width:150px;height:150px;border-radius:50%; border-top:1px solid red; 
+    border-bottom:1px solid red; margin:50px 400px;"/>
+          </a>
+        </li>
+        {else}
+        <li style="float:left;position:relative;top:15px;left:-120px;">
+          <a href="{:url('index/user/xiug')}" style="width:25px;height:20px;margin-top:10px;margin-left: 10px;">
+            <img src="/images/25.jpg" style="width:150px;height:150px;border-radius:50%; border-top:1px solid red; 
+    border-bottom:1px solid red; margin:50px 400px;""/>
+          </a>
+        </li>
+    {/if}
+    {/foreach}
+		<form action="{:url('index/user/tou')}" method="post" name="fm" enctype="multipart/form-data" onsubmit="return tou()">
+		<input type="file" name="file" accept="image/jpeg" style="position:relative;left:400px;"/><br /></br />
+		<input type="submit" value="提交" style="position:relative;left:400px; width:100px;height:30px;background-color:#404969;border:none; color:#fff;border-radius:3px;" />
+		</form>
+	</div>
+	
+	</div>
+  
+</div>
+<!-- 底部版权 -->
+<footer>
+  <div class="container">
+    <div class="copyright">
+      <p>Copyright © <span class="update-year">2016</span> Chen Xiaodong - All Rights Reserved&nbsp;&nbsp;|&nbsp;&nbsp;php1702
+        凯哥|坤哥</p>
+    </div>
+  </div>
+</footer>
+</body>
+<script>
+function tou()
+{
+	//alert('hello');
+	
+	var fm = document.forms['fm'].file.value;
+	//alert(fm);
+	if(fm == ""){
+	alert('请选择文件');
+	return false;
+	}else{
+	return true;
+	}
+	
+	
+}
+</script>
+
+
+</html>

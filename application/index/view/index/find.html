@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>发现音乐</title>
+   <link rel="icon" href="/images/favicon.ico" mce_href="images/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/category.css">
+   <link rel="stylesheet" href="/css/slider.css">
+  <link rel="stylesheet" href="/css/font-awesome.min.css">
+  <style>
+  
+     input[required]:invalid, input:focus:invalid, textarea[required]:invalid, textarea:focus:invalid{box-shadow: none;}
+	li{list-style:none;}
+  .ul_1{margin-top:10px;}
+	.ul_1 li{float:left; padding: 5px 11px; }
+  .ul_1 li:hover{
+	border:1px solid red;
+	color:#fff;
+  }
+  .ul_22 li{float:left; padding:10px 10px;}
+  .ul_22 a:hover{text-decoration:underline;}
+  </style>
+  
+</head>
+<body>
+<!-- 导航栏 -->
+<header>
+  <div class="container">
+    <div class="navbar-header">
+      <a href="{:url('index')}" class="navbar-brand">
+        <img src="/images/logo.png" alt="">
+      </a>
+    </div>
+  <nav>
+      <ul class="nav navbar-nav navbar-link">
+        <li ><a href="index.html">首页</a></li>
+        <li class="active"><a href="{:url('find')}">发现音乐</a></li>
+        <li><a href="{:url('love')}">我的歌单</a></li>
+        <li><a href="{:url('bolg')}">技术博客</a></li>
+        <li><a href="{:url('shop')}">耳机专场</a></li>
+      </ul>
+	  <ul class="nav navbar-nav navbar-right navbar-sm" style="float:left;margin-left:80px;">
+        
+         <form action="{:url('sou')}" method="post" >
+            <input type="text" name="name" placeholder="搜索自己喜欢的歌曲..." required="未输入" class="search-input">
+            <button type="submit" style="border:none;background:none;position:relative;left:-35px;"><i class="fa fa-search" aria-hidden="true" ></i></button>
+          </form>
+       
+      </ul>
+
+      <ul style="float:right;width:240px;height:65px;">
+        {if condition="$Request.session.username"}
+        {foreach $re as $v}
+        {if !empty($v['picture'])}
+        <li style="float:left;position:relative;top:15px;">
+          <a href="{:url('index/user/xiug')}" style="width:25px;height:20px;margin-top:10px;margin-left: 10px;">
+            <img src="{$v['picture']}" style="width:40px;height:40px;border-radius:50%;"/>
+          </a>
+        </li>
+        {else}
+        <li style="float:left;position:relative;top:15px;">
+          <a href="{:url('index/user/xiug')}" style="width:25px;height:20px;margin-top:10px;margin-left: 10px;">
+            <img src="/images/25.jpg" style="width:40px;height:40px;border-radius:50%;"/>
+          </a>
+        </li>
+        {/if}
+        {/foreach}
+        <li style="font-size:14px;width:60px;float:left;position:relative;top:25px;left:20px;letter-spacing: 1px;padding: 0 1.3em;"><a href="" >{$Request.session.username}</a></li>
+          {if condition="$Request.session.undertype !== 0"}
+          <li style="font-size:14px;float:left;position:relative;top:25px;letter-spacing: 1px;"><a href="{:url('admin/index/login')}">管理中心</a></li>
+          {/if}
+          <li style="font-size:14px;float:left;position:relative;top:25px;left:15px;letter-spacing: 1px;"><a href="{:url('index/user/outlogin')}">退出</a></li>
+        {else}
+        <li style="font-size:14px;position:relative;top:20px;left:120px;letter-spacing: 1px;"><a href="{:url('index/user/login')}">注册 / 登录</a></li>
+        {/if}
+      </ul>
+    </nav>
+  </div>
+</header>
+<!-- 头部信息 -->
+<div class="container-sm category-header-wrap">
+  <div class="category-header-banner">
+    <div class="img" style="background-image: url('/images/elect.jpg')">
+      <div class="content">
+        <h2>层楼终究误少年 自由早晚乱余生.....</h2>
+        <p>民谣不会最火也不会过时。</p>
+      </div>
+      <div class="mask"></div>
+    </div>
+  </div>
+</div>
+<!-- 音乐列表 -->
+<div class="container-sm box">
+  <div class="main">
+    <div class="main-wrap">
+      <div class="content-box">
+        <div class="piano-list">
+          <div class="content-header">
+            <h2><i class="fa fa-music red"></i>热门歌手</h2>
+          </div>
+		 
+		   <ul class="ul_1">
+                            <li style="border:1px solid red;"><a href="">推荐</a></li>
+                            <li ><a href="{:url('index/index/a')}?id=A" >A</a></li>
+                            <li ><a href="{:url('b')}?id=B">B</a></li>
+                            <li class="curr"><a href="{:url('c')}?id=C">C</a></li>
+                            <li ><a href="{:url('d')}?id=D">D</a></li>
+                            <li ><a href="{:url('e')}?id=E">E</a></li>
+                            <li ><a href="{:url('f')}?id=F">F</a></li>
+                            <li ><a href="{:url('g')}?id=G">G</a></li>
+                            <li ><a href="{:url('h')}?id=H">H</a></li>
+                            <li ><a href="{:url('i')}?id=I">I</a></li>
+                            <li ><a href="{:url('j')}?id=J">J</a></li>
+                            <li ><a href="{:url('k')}?id=K">K</a></li>
+                            <li ><a href="{:url('l')}?id=L">L</a></li>
+                            <li ><a href="{:url('m')}?id=M">M</a></li>
+                            <li ><a href="{:url('n')}?id=N">N</a></li>
+                            <li ><a href="{:url('o')}?id=O">O</a></li>
+                            <li ><a href="{:url('p')}?id=P">P</a></li>
+                            <li ><a href="{:url('q')}?id=Q">Q</a></li>
+                            <li ><a href="{:url('r')}?id=R">R</a></li>
+                            <li ><a href="{:url('s')}?id=S">S</a></li>
+                            <li ><a href="{:url('t')}?id=T">T</a></li>
+                            <li ><a href="{:url('u')}?id=U">U</a></li>
+                            <li ><a href="{:url('v')}?id=V">V</a></li>
+                            <li ><a href="{:url('w')}?id=W">W</a></li>
+                            <li ><a href="{:url('x')}?id=X">X</a></li>
+                            <li ><a href="{:url('y')}?id=Y">Y</a></li>
+                            <li ><a href="{:url('z')}?id=Z">Z</a></li>
+                        </ul>
+
+         <!--  <ul class="music-list clearfix">
+           
+		   <li>
+              <div class="u-cover">
+                <img src="http://p3.music.126.net/fNtMX44fvaGByURP0AbOZQ==/836728348761063.jpg">
+                <a title="Refrain - Anan Ryoko" href="../../music/22712173.html" class="msk"></a>
+              </div>
+              <p class="dec">
+                <a title="Refrain - Anan Ryoko" href="../../music/22712173.html">Refrain</a>
+              </p>
+              <div class="author">HaPBoy</div>
+            </li>
+            
+          </ul> -->
+		<div style="clear:both;">
+		
+			<ul class="ul_22">
+			{foreach $res as $va}
+			<a href="{:url('sou1')}?name={$va['author']}"><li>{$va['author']}</li></a>
+				{/foreach}
+			</ul>
+		
+		</div>
+        </div>
+		
+      </div>
+	 
+    </div>
+	
+  </div>
+  
+</div>
+<!-- 底部版权 -->
+<footer>
+  <div class="container">
+    <div class="copyright">
+       <p>Copyright © 静聴网，静聴时间的声音<span style="color:darkred;"><<一杯敬远方，一杯敬过往>></span><span> 制作人：凯哥-贱坤</span></p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

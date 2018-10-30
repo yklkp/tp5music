@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:wb="http://open.weibo.com/wb">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>静听-技术博客</title>
+  <link rel="icon" href="/images/favicon.ico" mce_href="images/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/category.css">
+  <link rel="stylesheet" href="/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/css/css/common.css" />
+	<link rel="stylesheet" type="text/css" href="/css/css/home.css"/>
+  <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
+  <style type="text/css">
+      /*圆角*/
+      .label.radius{border-radius: 3px}
+      .badge{padding-right:9px;padding-left:9px;border-radius:9px}
+      .label:empty, .badge:empty{display: none}
+      a.label:hover, a.label:focus, a.badge:hover, a.badge:focus{color: #fff;text-decoration: none;cursor: pointer}
+      /*css*/
+      .label-primary, .badge-primary{background-color: #5a98de}
+      .label-primary[href], .badge-primary[href]{background-color: #5a98de}
+      /*php*/
+      .label-warning, .badge-warning{background-color: #f37b1d}
+      .label-warning[href], .badge-warning[href]{background-color: #f37b1d}
+      /*css*/
+      .label-danger, .badge-danger{background-color: #dd514c}
+      .label-danger[href], .badge-danger[href]{background-color: #dd514c}
+
+  </style>
+</head>
+<body>
+<header>
+  <div class="container">
+    <div class="navbar-header">
+      <a href="{:url('index')}" class="navbar-brand">
+        <img src="/images/logo.png" alt="">
+      </a>
+    </div>
+    <nav>
+      <ul class="nav navbar-nav navbar-link">
+        <li><a href="{:url('index')}">首页</a></li>
+        <li><a href="{:url('find')}">发现音乐</a></li>
+        <li><a href="{:url('love')}">我的歌单</a></li>
+        <li class="active"><a href="{:url('bolg')}">技术博客</a></li>
+        <li><a href="{:url('shop')}">耳机专场</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="head fix">
+			<div class="t1 fix">
+				<!-- <div class="tl">静听音乐-技术博客</div> -->
+				<div class="tr">
+					<ul class="ur">
+            <li><wb:share-button appkey="1596117622" addition="number" type="button" ralateUid="5506450111" default_text="静聴网，静聴时间的声音" ></wb:share-button></li>
+						<li><a href="{:url('index/index/send')}">发表</a></li>
+            <li><a href="about.html">联系我们</a></li>
+						<!-- <li><a href="archive.html">ARCHIVE</a></li>
+						<li><a href="tags.html">TAGS</a></li>
+						<li><a href="works.html">WORKS</a></li> -->
+					</ul>
+				</div>
+			</div>
+			
+			<div class="tt">
+				<div class="t2">php+css+javascript</div>
+				<div class="t3">php世界最好的web语言</div>
+			</div>
+		</div>
+		<div class="content">
+		{foreach $re as $va}
+    {if $va['del'] == 0}
+			<div class="item">
+				<div class="h2"><a href="{:url('index/index/look')}?id={$va['oid']}">{$va['title']}</a></div>
+				<div class="text">	
+				{$va['content']}
+				</div> 
+				<div class="text_en">{$va['author']} {$va['addtime']} 
+        {if $va['tags'] == 'php'}
+          &nbsp;&nbsp;<span class="badge badge-warning radius" style="color:#fff;">php</span>
+        {/if}
+        {if $va['tags'] == 'css'}
+          &nbsp;&nbsp;<span class="badge badge-danger radius" style="color:#fff;">css</span>
+        {/if}
+        {if $va['tags'] == 'js'}
+          &nbsp;&nbsp;<span class="badge badge-primary radius" style="color:#fff;">j s</span>
+        {/if}
+        </div>
+			</div>
+    {/if}
+		{/foreach}
+		</div>
+
+
+
+<footer>
+  <div class="container">
+    <div class="copyright">
+      <p>Copyright © <span class="update-year">2016</span> Chen Xiaodong - All Rights Reserved&nbsp;&nbsp;|&nbsp;&nbsp;2014级
+        软件工程1班 陈晓东</p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

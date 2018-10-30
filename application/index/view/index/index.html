@@ -1,0 +1,303 @@
+  <!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>静听网</title>
+  <link rel="icon" href="/images/favicon.ico" mce_href="favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="/images/favicon.ico" mce_href="http://jt.hapboy.xyz/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/slider.css">
+  <link rel="stylesheet" href="/css/font-awesome.min.css">
+  <script type="text/javascript" src="/js/canvas-particle.js"></script>
+  <style>
+                input[required]:invalid, input:focus:invalid, textarea[required]:invalid, textarea:focus:invalid{box-shadow: none;}
+        li{list-style:none;}
+  </style>
+</head>
+<body>
+<!-- 天气 -->
+<div style="width:100%;height:25px;margin:0 auto; background-color:#F1F4F6;">
+  <iframe id="fancybox-frame" style="margin-left:40px;" name="fancybox-frame1510209354792" frameborder="0" scrolling="no" hspace="0"  src="http://i.tianqi.com/index.php?c=code&a=getcode&id=40&h=25&w=310"></iframe>
+</div>
+<!-- 天气结束 -->
+
+<!-- 导航栏 -->
+<!-- 背景div -->
+<div id="mydiv" style="min-height:500px;">
+<header>
+  <div class="container">
+    <div class="navbar-header">
+      <a href="" class="navbar-brand">
+        <img src="/images/logo.png" alt="">
+      </a>
+    </div>
+    <nav>
+      <ul class="nav navbar-nav navbar-link">
+        <li class="active"><a href="index.html">首页</a></li>
+        <li><a href="{:url('find')}">发现音乐</a></li>
+        <li><a href="{:url('love')}">我的歌单</a></li>
+        <li><a href="{:url('bolg')}">技术博客</a></li>
+        <li><a href="{:url('shop')}">耳机专场</a></li>  
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right navbar-sm" style="float:left;margin-left:80px;">
+        
+         <form action="{:url('sou')}" method="post" >
+            <input type="text" name="name" placeholder="搜索自己喜欢的歌曲..." required="未输入" class="search-input">
+            <button type="submit" style="border:none;background:none;position:relative;left:-35px;"><i class="fa fa-search" aria-hidden="true" ></i></button>
+          </form>
+       
+      </ul>
+  
+      <!-- 账号登陆 -->
+      <ul style="float:right;width:240px;height:65px;">
+    {if condition="$Request.session.username"}
+        {foreach $tou as $v}
+        {if !empty($v['picture'])}
+        <li style="float:left;position:relative;top:15px;">
+          <a href="{:url('index/user/xiug')}" style="width:25px;height:20px;margin-top:10px;margin-left: 10px;">
+            <img src="{$v['picture']}" style="width:40px;height:40px;border-radius:50%;"/>
+          </a>
+        </li>
+        {else}
+        <li style="float:left;position:relative;top:15px;">
+          <a href="{:url('index/user/xiug')}" style="width:25px;height:20px;margin-top:10px;margin-left: 10px;">
+            <img src="/images/25.jpg" style="width:40px;height:40px;border-radius:50%;"/>
+          </a>
+        </li>
+        {/if}
+        {/foreach}
+        <li style="font-size:14px;width:60px;float:left;position:relative;top:25px;left:20px;letter-spacing: 1px;padding: 0 1.3em;"><a href="" >{$Request.session.username}</a></li>
+          {if condition="$Request.session.undertype == 0"}
+            <li style="font-size:14px;float:left;position:relative;top:25px;left:15px;letter-spacing: 1px;"><a href="{:url('index/user/outlogin')}">退出</a></li>
+          {else}
+            <li style="font-size:14px;float:left;position:relative;top:25px;letter-spacing: 1px;"><a href="{:url('admin/index/login')}">管理中心</a></li>
+            <li style="font-size:14px;float:left;position:relative;top:25px;left:15px;letter-spacing: 1px;"><a href="{:url('index/user/outlogin')}">退出</a></li>
+          {/if}
+    {elseif condition="$Request.session.wei_name"}
+            <!-- 微博登陆 -->
+            <ul style="float:right;width:240px;height:65px;">
+              <li style="float:left;position:relative;top:15px;">
+                <a href="#" style="width:25px;height:20px;margin-top:10px;margin-left: 10px;">
+                  <img src="{$Request.session.wei_picture}" style="width:40px;height:40px;border-radius:50%;"/>
+                </a>
+              </li>
+              <li style="font-size:14px;width:60px;float:left;position:relative;top:25px;left:20px;letter-spacing: 1px;padding: 0 1.3em;"><a href="#" >{$Request.session.wei_name}</a></li>
+                  <li style="font-size:14px;float:left;position:relative;top:25px;left:15px;letter-spacing: 1px;"><a href="{:url('index/user/outlogin')}">退出</a></li>
+            </ul>
+      <!-- 微博登陆结束 -->
+    {else}
+        <li style="font-size:14px;position:relative;top:20px;left:120px;letter-spacing: 1px;"><a href="{:url('index/user/login')}">注册 / 登录</a></li>
+      </ul>
+      <!-- 账号登陆结束 -->
+  {/if}
+    </nav>
+  </div>
+</header>
+<!-- 轮播图 -->
+<div class="container-sm slider-wrap">
+  <div class="slider">
+    <div class="slider-item-list"></div>
+    <div class="slider-dots">
+      <div class="slider-dots-wrap"></div>
+    </div>
+    <div class="slider-arrows">
+      <div class="slider-arrows-wrap">
+        <span class="slider-arrow slider-arrow-left" onclick="HBSlider.turn(-1)"></span>
+        <span class="slider-arrow slider-arrow-right" onclick="HBSlider.turn(1)"></span>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 主内容区域 -->
+<div class="container-sm box">
+  <!-- 主内容 -->
+  <div class="main">
+    <div class="main-wrap">
+      <div class="content-box">
+        <!-- 热门推荐 -->
+        <div class="hot-recommand">
+          <div class="content-header">
+            <h2><i class="fa fa-music red"></i>推荐歌手</h2>
+            <div class="tab">
+            
+      <!-- <a href="category/piano">钢琴</a>
+              <span class="line">|</span>
+              <a href="category/guitar">吉他</a>
+              <span class="line">|</span>
+              <a href="category/cartoon">动漫</a>
+              <span class="line">|</span>
+              <a href="category/elect">电子</a>  -->
+        
+            </div>
+            <span class="more"><h3><a href="{:url('find')}">更多>></a></h3></span>
+          </div>
+     
+          <ul class="music-list clearfix"> 
+      
+      {foreach $res as $v}
+            <li>
+              <div class="u-cover">
+                <img src="{$v['tu']}">
+                <a title="{$v['author']}" href="{:url('sou1')}?name={$v['author']}" class="msk"></a>
+              </div>
+              <p class="dec">
+                <a title="Refrain - Anan Ryoko" href="{:url('sou1')}?name={$v['author']}">{$v['author']}</a>
+              </p>
+              <div class="author">推荐歌手</div>
+            </li>
+      {/foreach}
+            
+          </ul>
+        </div>
+
+        
+        <!-- 分类榜单 -->
+        <div class="category">
+          <div class="content-header">
+            <h2><i class="fa fa-music red"></i>分类榜单</h2>
+          </div>
+          <div class="row">
+          {foreach $result as $valu}
+          {if $valu['del'] == 0}
+            <div class="category-music-list">
+              <div class="category-header">
+                <img src="/{$valu['image']}" style="width:22px;height:22px;position:relative;top:5px;" /> {$valu['name']}
+              </div>
+             
+              <ol >
+               {foreach $data as $val}
+               {if $valu['qid'] == $val['mid']}
+               {if $val['del'] == 0}
+                <li class="music-list-item">
+                  <div class="title">
+                    <div class="title_wrap">
+                      <span class="rank">{$val['order']}</span>
+                      <a href="{:url('sou1')}?name={$val['name']}" title="Refrain">{$val['name']}</a>
+                      <span class="date" style="margin-left: 20px;">---{$val['singer']}</span>
+                    </div>
+                  </div>
+                  <div class="info">
+                   <!--  <span class="date" style="">{$val['addtime']}</span> -->
+
+                    <span class="avatar"><img
+                        src="/{$val['tou']}" style="width:20px;height:20px;border-radius: 50%;"></span>
+                        
+                  </div>
+                </li>
+                {/if}
+                {/if}
+               {/foreach}
+              </ol>
+            </div>
+            {/if}
+            {/foreach}
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 侧边栏 -->
+  <div class="sidebar" style="min-height: 1094px">
+  {foreach $result1 as $va}
+   {if $va['del'] == 0}
+    <div class="right-module">
+      <h4>{$va['name']}</h4>
+      {foreach $data1 as $v}
+       {if $va['qid'] == $v['mid']}
+               {if $v['del'] == 0}
+      <ul class="new-artist-songs">
+        <li class="artist-song">
+          <div class="avatar">
+            <img src="/{$v['tou']}">
+          </div>
+          <div class="info">
+            <h3>{$v['name']}</h3>
+            <p>{$v['singer']} / <span>{$v['addtime']}</span></p>
+          </div>
+          <a href="{:url('sou1')}?name={$v['singer']}" title="Refrain" class="cover-link"></a>
+        </li>
+       
+      </ul>
+      {/if}
+      {/if}
+      {/foreach}
+    </div>
+    {/if}
+    {/foreach}
+  </div>
+</div>
+<!-- 底部版权 -->
+<footer>
+  <div class="container">
+    <div class="copyright">
+      <p>Copyright © 静聴网，静聴时间的声音<span style="color:darkred;"><<一杯敬远方，一杯敬过往>></span><span> 制作人：凯哥-贱坤</span></p>
+    </div>
+  </div>
+</footer>
+</div>
+<!-- JS 脚本 -->
+<script src="/js/jquery.min.js"></script>
+<script src="/js/HBSlider.js"></script>
+<script>
+  // 轮播图数据
+  var sliderData = [
+    {
+      title: '立即抢购',
+      pic: '/images/s.jpg',
+      url: "{:url('shop')}"
+    },
+    {
+      title: '《安和桥》',
+      pic: '/images/song.jpg',
+      url: "{:url('play')}?id=27646205"
+    },
+    {
+      title: 'Walk On Water',
+      pic: '/images/dao.jpg',
+      url: "{:url('play')}?id=518077040"
+    },
+    {
+      title: '静下来',
+      pic: '/images/lei.jpg',
+      url: "{:url('play')}?id=517567264"
+    }
+  ];
+
+  $(function () {
+    HBSlider.setConfig({
+      autoPlay: true,
+      delay: 5
+    });
+    HBSlider.setItems(sliderData);
+    HBSlider.init();
+    HBSlider.play();
+  });
+</script>
+<script type="text/javascript">
+    window.onload = function() {
+        //配置
+        var config = {
+            vx: 4,  //小球x轴速度,正为右，负为左
+            vy: 4,  //小球y轴速度
+            height: 2,  //小球高宽，其实为正方形，所以不宜太大
+            width: 2,
+            count: 200,   //点个数
+            color: "121, 162, 185",   //点颜色
+            stroke: "218 ,112 ,214",    //线条颜色
+            dist: 6000,   //点吸附距离
+            e_dist: 20000,  //鼠标吸附加速距离
+            max_conn: 10  //点到点最大连接数
+        }
+
+        //调用
+        CanvasParticle(config);
+    }
+</script>
+</body>
+</html>

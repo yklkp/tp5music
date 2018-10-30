@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>{$data['name']} -{$data['songname']} </title>
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/music.css">
+  <link rel="stylesheet" href="/layui/css/layui.css">
+  <link rel="stylesheet" href="/css/slider.css">
+  <link rel="stylesheet" href="/css/css/APlayer.min.css">
+  <link rel="stylesheet" href="/css/font-awesome.min.css">
+  <style>
+	.span_1{
+	float:right;  margin-right:15px; border-radius:2px;text-align:center;line-height:40px;
+	}
+	
+	
+  </style>
+</head>
+<body>
+<header>
+  <div class="container">
+    <div class="navbar-header">
+      <a href="" class="navbar-brand">
+        <img src="/images/logo.png" alt="">
+      </a>
+    </div>
+    <nav>
+      <ul class="nav navbar-nav navbar-link">
+        <li ><a href="{:url('index')}">首页</a></li>
+        <li class="active"><a href="{:url('find')}">发现音乐</a></li>
+        <li><a href="{:url('love')}">我的歌单</a></li>
+        <li><a href="{:url('bolg')}">技术博客</a></li>
+        <li><a href="{:url('shop')}">耳机专场</a></li>
+      </ul>
+	  <ul class="nav navbar-nav navbar-right navbar-sm" style="float:left;margin-left:80px;">
+        
+         <form action="{:url('sou')}" method="post" >
+            <input type="text" name="name" placeholder="搜索自己喜欢的歌曲..." required="未输入" class="search-input">
+            <button type="submit" style="border:none;background:none;position:relative;left:-35px;"><i class="fa fa-search" aria-hidden="true" ></i></button>
+          </form>
+       
+      </ul>
+
+      <ul style="float:right;width:240px;height:65px;">
+        {if condition="$Request.session.username"}
+        {foreach $tou as $v}
+        {if !empty($v['picture'])}
+        <li style="float:left;position:relative;top:15px;">
+          <a href="{:url('index/user/xiug')}" style="width:25px;height:20px;margin-top:10px;margin-left: 10px;">
+            <img src="{$v['picture']}" style="width:40px;height:40px;border-radius:50%;"/>
+          </a>
+        </li>
+        {else}
+        <li style="float:left;position:relative;top:15px;">
+          <a href="{:url('index/user/xiug')}" style="width:25px;height:20px;margin-top:10px;margin-left: 10px;">
+            <img src="/images/25.jpg" style="width:40px;height:40px;border-radius:50%;"/>
+          </a>
+        </li>
+        {/if}
+        {/foreach}
+        <li style="font-size:14px;width:60px;float:left;position:relative;top:25px;left:20px;letter-spacing: 1px;padding: 0 1.3em;"><a href="" >{$Request.session.username}</a></li>
+          {if condition="$Request.session.undertype == 0"}
+            <li style="font-size:14px;float:left;position:relative;top:25px;left:15px;letter-spacing: 1px;"><a href="{:url('index/user/outlogin')}">退出</a></li>
+          {else}
+            <li style="font-size:14px;float:left;position:relative;top:25px;letter-spacing: 1px;"><a href="{:url('admin/index/login')}">管理中心</a></li>
+            <li style="font-size:14px;float:left;position:relative;top:25px;left:15px;letter-spacing: 1px;"><a href="{:url('index/user/outlogin')}">退出</a></li>
+          {/if}
+        {else}
+        <li style="font-size:14px;position:relative;top:20px;left:120px;letter-spacing: 1px;"><a href="{:url('index/user/login')}">注册 / 登录</a></li>
+        {/if}
+      </ul>
+    </nav>
+  </div>
+</header>
+<div class="container-sm player-wrap">
+  <div class="container1">
+	<div id="player3" class="aplayer">
+	<pre class="aplayer-lrc-content">
+	{$data['lrc']}
+			 
+	</pre>
+	</div>
+
+	</div>
+</div>
+<div class="container-sm box">
+  <div class="main">
+    <div class="main-wrap">
+      <div class="content-box article">
+        <div class="title">
+          <h2>{$data['name']} -{$data['songname']}  
+		{if !empty($Request.session.uid)}
+			{if $log == 0}
+			<a href="javascript:" onclick="sou({$id},{$Request.session.uid})" title="点击收藏" id="a" > <img src="/images/a.png" class="span_1" id="img" /><!-- <span class="span_1" >收藏</span> --></a>
+			{else}		
+		
+			<a href="javascript:" onclick="sou1({$id},{$Request.session.uid})" title="取消收藏" id="a" > <img src="/images/a1.png" class="span_1" id="img" /><!-- <span class="span_1" >收藏</span> --></a>
+			{/if}
+		{else}
+				
+			<a href="javascript:" onclick="sou({$id},{$Request.session.uid})" title="点击收藏" id="a" > <img src="/images/a.png" class="span_1" id="img" /><!-- <span class="span_1" >收藏</span> --></a>
+		{/if}
+		  
+		 
+		  
+		 
+		  </h2>
+		  
+          <div class="info">
+            <span class="author">PHP1702</span> / <span class="date">2016-12-21</span>
+          </div>
+		
+        </div>
+        <div class="content">
+          <p>
+            <img src="{$data['pi']}" style="width:100%;">
+          </p>
+		 
+        <!--   <div style="float:left; overflow:hidden;  width:100%;background:none;">
+		   
+		  <div style=" margin-left:-74px;">
+		  <pre>
+		 
+		  </pre>
+		  </div>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 侧边栏 -->
+  <div class="sidebar" style="min-height: 1094px">
+  {foreach $result1 as $va}
+   {if $va['del'] == 0}
+    <div class="right-module">
+      <h4>{$va['name']}</h4>
+      {foreach $data1 as $v}
+       {if $va['qid'] == $v['mid']}
+               {if $v['del'] == 0}
+      <ul class="new-artist-songs">
+        <li class="artist-song">
+          <div class="avatar">
+            <img src="/{$v['tou']}">
+          </div>
+          <div class="info">
+            <h3>{$v['name']}</h3>
+            <p>{$v['singer']} / <span>{$v['addtime']}</span></p>
+          </div>
+          <a href="{:url('sou1')}?name={$v['singer']}" title="Refrain" class="cover-link"></a>
+        </li>
+       
+      </ul>
+      {/if}
+      {/if}
+      {/foreach}
+    </div>
+    {/if}
+    {/foreach}
+  </div>
+</div>
+<div class="div_1">
+	<img src="/images/01.png" class="tou"/>
+	<div class="p">
+		<form action="{:url('index/user/ping')}?id={$id}&name={$data['name']}&songName={$data['songname']}" method="post" name="fm" onsubmit="return send({$Request.session.uid})">
+		<textarea class="c" name="text" placeholder="层楼终将误少年，自由早晚乱余生"></textarea>
+		<input type="submit" value="发表" class="bu" />
+		</form>
+		<br /><br /><br />
+	</div>
+	{foreach $ping as $val}
+		{if $val['replayId'] == 0}
+	<div class="hui" id="hui">
+		{foreach $user as $va}
+			{if $val['uid'] == $va['uid']}
+				
+	<img src="{$va['picture']}" class="tou1"/>
+	<span class="span5"><font color="green" style="position:relative;left: 0px;top: 15px;"
+>{$va['username']}：</font></span>
+		
+	
+	<span class="span7">&nbsp;&nbsp;&nbsp;&nbsp;{$val['content']}</span>
+	
+			{/if}
+		{/foreach}
+	<div id="re">
+			<ul style="background-color:#eee;width:80%; margin:0 auto;margin-bottom:30px;">
+				{foreach $ping1 as $z}
+				{foreach $user as $va}
+				{if $z['uid'] == $va['uid']}
+				{if $z['replayId']== 1 && $val['pid'] == $z['aid']}
+			
+				<li style="border-bottom:1px solid #bbb;"><b>&nbsp;{$va['username']}：&nbsp;</b><font color="#222">{$z['content']}</font></li>
+				
+				{/if}
+				{/if}
+				{/foreach}
+				{/foreach}
+			
+				<ul>
+	</div>
+	<span class="span8">
+	
+		<form action="{:url('index/user/hui')}" method="post">
+		<font color="#aaa" >{$val['addtime']}</font></span>
+		<input type="text" style="width:400px; margin-left:350px; border:1px solid #bbb; border-radius:3px;" name="text" required="">
+		<input type="hidden" name="pid" value="{$val['pid']}">
+		<input type="hidden" name="songId" value="{$id}">
+		<input type="hidden" name="name" value="{$data['name']}">
+		<input type="hidden" name="songName" value="{$data['songname']}">
+		<button style="background:; border:none;">回复</button>
+		
+		</form>
+	
+	</div>
+		{/if}
+	{/foreach}
+
+</div>
+<div id="demo6" style="width:500px;margin:0 auto;"></div>
+
+<footer>
+  <div class="container">
+    <div class="copyright">
+      <p>Copyright © <span class="update-year">2016</span> Chen Xiaodong - All Rights Reserved&nbsp;&nbsp;|&nbsp;&nbsp;千锋php1702
+        凯哥</p>
+    </div>
+  </div>
+</footer>
+<script src="http://cdn.bootcss.com/aplayer/1.5.8/APlayer.min.js"></script>
+<script src="/js/ajax.js"></script>
+<script src="/js/APlayer.min.js"></script> 
+<script src="/js/jquery-1.11.3.min.js"></script>
+<script>
+ 
+  
+  	
+    var ap3 = new APlayer({
+        element: document.getElementById('player3'),
+        narrow: false,
+        autoplay: true,
+        showlrc: true,
+		 mutex: true, 
+        music: {
+        title: "{$data['name']}",                                 // Required, music title
+		author: "{$data['songname']}",                          // Required, music author
+		url: "{$data['url']}",  // Required, music url
+		pic: "{$data['pi']}"  // Optional, music picture
+        }
+    });
+    ap3.init();
+  function sou(i,e)
+{
+	var a = document.getElementById('a');
+	var img = document.getElementById('img');
+	
+	if(e == null){
+	alert('请您先登录');
+	//window.location.href="{:url('index/user/login')}";
+	return false;
+	}
+	ajax.request({
+        url:"{:url('ajaxs')}?id=" + i + "&uid=" + e,
+        type:'GET',
+        jsonp:'callback',
+		dataType:'text',
+        callback:function(data){
+		var obj = JSON.parse(data);
+		//alert(obj);
+		if(obj.state == 1){
+			
+		}else{
+			img.src="/images/a1.png";
+			a.setAttribute('title', '取消收藏');
+			a.setAttribute('onclick', 'sou1({$id},{$Request.session.uid})');
+			
+		}
+        }
+    });
+	
+	
+	}
+	
+function sou1(i,e)
+{
+	
+	var a = document.getElementById('a');
+	var img = document.getElementById('img');
+	
+	if(e == null){
+	alert('请您先登录');
+	return false;
+	}
+	ajax.request({
+        url:"{:url('dele')}?id=" + i + "&uid=" + e,
+        type:'GET',
+        jsonp:'callback',
+		dataType:'text',
+        callback:function(data){
+		var obj = JSON.parse(data);
+		//alert(obj);
+		if(obj.state == 1){
+			a.setAttribute('title', '点击收藏');
+			a.setAttribute('onclick', 'sou({$id},{$Request.session.uid})');
+			img.src="/images/a.png";
+		}
+        }
+    });
+	
+	
+	}
+	
+	function send(i)
+	{
+		
+		if(i==null){
+		alert('您还没登录');
+		return false;
+		}
+		var text = document.forms['fm'].text.value;
+		//alert(text);
+		if(text == ""){
+		alert('您没有输入任何内容');
+		return false;
+		}
+		
+		
+		
+	}
+	
+</script>
+<script src="/layui/layui.js"></script>
+<script>
+	layui.use(['laypage','element'],function(){
+		var element = layui.element,
+		laypage = layui.laypage;
+		
+		laypage.render({
+            elem: 'demo6'
+            ,count: {$count}  //数据总条数
+            ,limit: {$num}  //每页数据
+            ,curr: {$page}    //当前页码
+            ,groups:3         //连续出现的页码个数
+            ,theme: '#19a97b'    //主题颜色
+            ,first: '首页'
+            ,last: '尾页'
+            ,layout: ['count', 'prev', 'page', 'next', 'skip']
+            ,jump:function(obj, first){
+                if(!first){
+                    window.location.href="/index/index/play/lst?page="+obj.curr+"&id={$id}";
+                }
+            }
+        });
+
+	
+	})
+</script>
+</body>
+</html>

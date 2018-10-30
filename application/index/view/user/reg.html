@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+    <head>
+
+        <meta charset="utf-8">
+        <title>注册</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        
+        <!-- <script src="/js/reg.js"></script> -->
+        <script src="/app/js/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript" src="/js/ajax.js"></script>
+
+        <!-- CSS -->
+        <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=PT+Sans:400,700'>
+        <link rel="stylesheet" href="/css/reset.css">
+        <link rel="stylesheet" href="/css/supersized.css">
+        <link rel="stylesheet" href="/css/styles.css">
+
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+
+    </head>
+
+    <body style="overflow-y:scroll;">
+
+        <div class="page-container">
+            <h1>注册</h1>
+            <form action="{:url('index/User/add')}" method="post" id="myform" name="fm">
+                <input type="text" name="username" id="username" class="username" placeholder="取个用户名，长度不得小于3个字"><span id="span" style="position:relative;top:-30px;left:222px;"></span>
+                <input type="email" name="email" id="email" placeholder="邮箱"><span id="span2" style="position:relative;top:-30px;left:222px;"></span>
+
+                <input type="password" name="pwd" id="pwd" placeholder="密码"><span id="span3" style="position:relative;top:-30px;left:222px;"></span>
+
+                <input type="password" name="repwd" id="repwd" placeholder="确认密码"><span id="span4" style="position:relative;top:-30px;left:222px;"></span>
+
+                <input type="text" name="tel" id="tel" placeholder="手机号码" ><span id="span5" class="help-block text-left"></span>
+
+                <input type="text" name="code" id="code" placeholder="短信验证码" style="width:150px;margin-left:0px;"><input type="button" value="获取验证码" id="btn"  style="width:120px;position:relative;background-color:pink;color:blue;">
+
+                
+
+                <button type="submit" onclick ="ajaxPost()">提交</button>
+                <div class="error"><span>+</span></div>
+            </form>
+            <div style="height:20px;"></div>
+        </div>
+        <div ><a href="login" style="color:red;">返回登陆</a> &nbsp;&nbsp;<a href="{:url('index/index/index')}" style="color:pink;">返回首页</a></div>
+
+        <!-- Javascript -->
+        <script src="/js/jquery-1.8.2.min.js"></script>
+        <script src="/js/supersized.3.2.7.min.js"></script>
+        <script src="/js/supersized-init.js"></script>
+        <script src="/js/scriptss.js"></script>
+
+    </body>
+<script>
+$(function(){
+    $('#btn').on('click',function(){
+        var tel = document.getElementById('tel').value;
+        //alert(tel);
+        ajax.request({
+        url:"{:url('index/user/sent_code')}?"+"tel="+tel,
+        type:'get',
+        jsonp:'callback',
+        //data:{name:12345},
+        callback:function(data){
+            //console.log(data);
+            var obj = JSON.parse(data);
+            if(obj.state == 1){
+                alert('验证码正确');
+
+                //window.location.href="{:url('admin/index/system_category')}"
+            } else {
+                alert('验证码错误！');
+                window.location.href="{:url('index/user/reg')}"
+            }
+        }
+    });
+    }) 
+});
+  $(function()
+    {
+        var flag = false;
+        var plock = false;
+        //var pi = document.createElement("img")
+        $('[name=username]').blur(function()
+        {       
+            //获取输入框中输入的内容。
+            var value = $('[name=username]').val();
+            
+            if (value == 0) {
+                $('#span').html('× 用户名不能为空').css('color','#fff');
+                flag = false;
+                return ;
+            }
+            if (value.length < 2) {
+                $('#span').html('× 用户名长度太短').css('color','#fff');
+                flag = false;
+                return ;
+            }
+            $.post('ajax',{username:value},success,'json');
+        });
+        
+        function success(data)
+        {
+            //var obj = JSON.parse(data);
+            //console.log(data);
+            //alert(data);
+            //parent.appendChild("#span");
+           if (data.state == 1) {
+               $('#span').html('× 此用户名已存在').css('color','#fff');
+           } else {
+               $('#span').html('').css('color','#fff');
+               flag = true;
+           }
+        }
+        
+        
+        
+        
+        
+        $('[name=email]').blur(function() { 
+                var temp = document.getElementById("email");
+                //对电子邮件的验证
+                var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+                 if(!myreg.test(temp.value))
+                 {
+                    $('#span2').html('× 请输入正确的邮箱').css('color','#fff');
+                        flag = false;
+                        return ;
+                 } else {
+                    $('#span2').html('').css('color','#fff');
+                    flag = true;
+                 }
+                });
+        
+        
+        
+        $('[name=pwd]').blur(function()
+        {       
+            //获取输入框中输入的内容。
+            var value = $('[name=pwd]').val();
+            
+            if (value == 0) {
+                $('#span3').html('× 请输入密码').css('color','#fff');
+                flag = false;
+                return ;
+            }
+            if (value.length < 5) {
+                $('#span3').html('× 密码至少六位').css('color','#fff');
+                flag = false;
+                return ;
+            }
+        });
+        
+        
+        
+        
+        $('[name=repwd]').blur(function()
+        {       
+            //获取输入框中输入的内容。
+            
+            var value = $('[name=repwd]').val();
+            var value1 = $('[name=pwd]').val();
+            if(value == 0){
+                $('#span4').html('').css('color','#fff');
+                return flag = false;
+            }
+            if(value == value1){
+                $('#span4').html('').css('color','#fff');
+                flag = true;
+            }else{
+            $('#span4').html('× 两次密码不一致').css('color','#fff');
+            return flag = false;
+            }
+                
+        
+            });
+            
+            var wait=30;  
+            function time(o) {  
+            if (wait == 0) {  
+                o.removeAttribute("disabled");            
+                o.value="免费获取验证码";  
+                wait = 30;  
+            } else {  
+                o.setAttribute("disabled", true);  
+                o.value="重新发送(" + wait + ")";  
+                wait--;  
+                setTimeout(function() {  
+                    time(o)  
+                },  
+                1000)  
+            }  
+        }  
+        document.getElementById("btn").onclick=function(){time(this);}  
+            
+            
+            
+        });
+</script>
+</html>
+

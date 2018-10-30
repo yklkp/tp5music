@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title></title>
+   <link rel="icon" href="/images/favicon.ico" mce_href="images/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/category.css">
+  <link rel="stylesheet" href="/css/font-awesome.min.css">
+  <style>
+  .ul_1{margin-top:10px;}
+	.ul_1 li{float:left; padding: 5px 11px; }
+  .ul_1 li:hover{
+	border:1px solid red;
+	color:#fff;
+  }
+  .ul_22 li{float:left; padding:10px 10px;}
+  .ul_22 a:hover{text-decoration:underline;}
+  </style>
+  
+</head>
+<body>
+<!-- 导航栏 -->
+<header>
+  <div class="container">
+    <div class="navbar-header">
+      <a href="{:url('index')}" class="navbar-brand">
+        <img src="/images/logo.png" alt="">
+      </a>
+    </div>
+    <nav>
+      <ul class="nav navbar-nav navbar-link">
+        <li><a href="{:url('index')}">首页</a></li>
+        <li class="active"><a href="{:url('find')}">发现音乐</a></li>
+        <li><a href="{:url('love')}">我的歌单</a></li>
+        <li><a href="{:url('bolg')}">技术博客</a></li>
+        <li><a href="{:url('shop')}">耳机专场</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<!-- 头部信息 -->
+<div class="container-sm category-header-wrap">
+  <div class="category-header-banner">
+     <a href="{:url('sou1')}?name=欧阳靖"><div class="img" style="background-image: url('/images/ge/o.jpg');background-position: 50% 20%;"">
+      <div class="content">
+        <h2>欧阳靖</h2>
+        <p>MCJin</p>
+      </div>
+      <div class="mask"></div>
+    </div></a>
+  </div>
+</div>
+<!-- 音乐列表 -->
+<div class="container-sm box">
+  <div class="main">
+    <div class="main-wrap">
+      <div class="content-box">
+        <div class="piano-list">
+          <div class="content-header">
+            <h2><i class="fa fa-music red"></i>热门歌手</h2>
+          </div>
+		 
+		   <ul class="ul_1">
+                           <li ><a href="{:url('find')}">推荐</a></li>
+                            <li ><a href="{:url('A')}" >A</a></li>
+                            <li ><a href="{:url('B')}">B</a></li>
+                            <li class="curr"><a href="{:url('C')}">C</a></li>
+                            <li ><a href="{:url('D')}">D</a></li>
+                            <li ><a href="{:url('E')}">E</a></li>
+                            <li ><a href="{:url('F')}">F</a></li>
+                            <li ><a href="{:url('G')}">G</a></li>
+                            <li ><a href="{:url('H')}">H</a></li>
+                            <li ><a href="{:url('I')}">I</a></li>
+                            <li ><a href="{:url('J')}">J</a></li>
+                            <li ><a href="{:url('K')}">K</a></li>
+                            <li ><a href="{:url('L')}">L</a></li>
+                            <li ><a href="{:url('M')}">M</a></li>
+                            <li ><a href="{:url('N')}">N</a></li>
+                            <li style="border:1px solid red;"><a href="{:url('O')}">O</a></li>
+                            <li ><a href="{:url('P')}">P</a></li>
+                            <li ><a href="{:url('Q')}">Q</a></li>
+                            <li ><a href="{:url('R')}">R</a></li>
+                            <li ><a href="{:url('S')}">S</a></li>
+                            <li ><a href="{:url('T')}">T</a></li>
+                            <li ><a href="{:url('U')}">U</a></li>
+                            <li ><a href="{:url('V')}">V</a></li>
+                            <li ><a href="{:url('W')}">W</a></li>
+                            <li ><a href="{:url('X')}">X</a></li>
+                            <li ><a href="{:url('Y')}">Y</a></li>
+                            <li ><a href="{:url('Z')}">Z</a></li>
+                        </ul>
+
+         <!--  <ul class="music-list clearfix">
+           
+		   <li>
+              <div class="u-cover">
+                <img src="http://p3.music.126.net/fNtMX44fvaGByURP0AbOZQ==/836728348761063.jpg">
+                <a title="Refrain - Anan Ryoko" href="../../music/22712173.html" class="msk"></a>
+              </div>
+              <p class="dec">
+                <a title="Refrain - Anan Ryoko" href="../../music/22712173.html">Refrain</a>
+              </p>
+              <div class="author">HaPBoy</div>
+            </li>
+            
+          </ul> -->
+		<div style="clear:both;">
+		
+			<ul class="ul_22">
+			{foreach $res as $va}
+			<a href="{:url('sou1')}?name={$va['author']}"><li>{$va['author']}</li></a>
+				{/foreach}
+			</ul>
+		
+		</div>
+        </div>
+		
+      </div>
+	 
+    </div>
+	
+  </div>
+  
+</div>
+<!-- 底部版权 -->
+<footer>
+  <div class="container">
+    <div class="copyright">
+      <p>Copyright © <span class="update-year">2016</span> Chen Xiaodong - All Rights Reserved&nbsp;&nbsp;|&nbsp;&nbsp;2014级
+        软件工程1班 陈晓东</p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title></title>
+   <link rel="icon" href="/images/favicon.ico" mce_href="images/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/category.css">
+   <link rel="stylesheet" href="/css/slider.css">
+  <link rel="stylesheet" href="/css/font-awesome.min.css">
+  <style>
+  
+     input[required]:invalid, input:focus:invalid, textarea[required]:invalid, textarea:focus:invalid{box-shadow: none;}
+	li{list-style:none;}
+  .ul_1{margin-top:10px;}
+	.ul_1 li{float:left; padding: 5px 11px; }
+  .ul_1 li:hover{
+	border:1px solid red;
+	color:#fff;
+  }
+  .ul_22 li{float:left; padding:10px 10px;}
+  .ul_22 a:hover{text-decoration:underline;}
+  
+  .xiu{
+  
+	width:100%;
+	height:auto;
+  }
+	.one{
+	width:33%;
+	height:40px;
+	background-color:#404969;
+	}
+	.two{
+	width:33%;
+	height:40px;
+	background-color:#BDE4F4;
+	}
+	.three{
+	width:33%;
+	height:40px;
+	background-color:#DC552C;
+	}
+	
+	.xiu ul{
+	width:100%;
+	height:40px;
+	
+	}
+	.xiu li {
+	float:left;
+	padding:10px 131px;
+	color:#fff;
+	}
+	
+	.img{
+	width:60%;
+	height:500px;
+	}
+  </style>
+  
+</head>
+<body>
+<!-- 导航栏 -->
+<header>
+  <div class="container">
+    <div class="navbar-header">
+      <a href="{:url('index')}" class="navbar-brand">
+        <img src="/images/logo.png" alt="">
+      </a>
+    </div>
+  <nav>
+      <ul class="nav navbar-nav navbar-link">
+        <li ><a href="index.html">首页</a></li>
+        <li class="active"><a href="{:url('find')}">发现音乐</a></li>
+        <li><a href="{:url('love')}">我的歌单</a></li>
+        <li><a href="{:url('bolg')}">技术博客</a></li>
+        <li><a href="{:url('shop')}">耳机专场</a></li>
+      </ul>
+	  <div class="search d7">
+		<form action="{:url('sou')}" method="post" >
+		  <input type="text" name="name" placeholder="搜索自己喜欢的歌曲..." required="">
+		  <button type="submit"></button>
+		</form>
+	</div>
+		<div class="login">
+      {if condition="$Request.session.username"}
+        <li ><a href="" style="width:25px;height:20px;margin-left: 10px;"><img src="/images/25.jpg" style="width:40px;height:40px;border-radius:50%; " title="{$Request.session.username}"/></a> <a href="{:url('index/user/outlogin')}">退出</a></li>
+        <li><a href="" style="">{$Request.session.username}</a></li>
+          {if condition="$Request.session.undertype == 1"}
+          <li><a href="{:url('admin/index/login')}">管理中心</a></li>
+          <li><a href="{:url('index/user/outlogin')}">退出</a></li>
+          {/if}
+        {else}
+        <li><a href="{:url('index/user/login')}">注册 / 登录</a></li>
+      {/if}
+		</div>
+    </nav>
+  </div>
+</header>
+<div class="container-sm box">
+	<div class="xiu">
+		<!-- div class="one"> 修改头像</div>
+		<div class="two"> 修改资料</div>
+		<div class="three"> 修改密码</div> -->
+	<ul>
+		<a href="{:url('index/user/xiug')}"><li style="background-color:#BDE4F4">修改头像</li></a>
+		<a href="{:url('index/user/mi')}"><li style="background-color:#DC552C">修改密码</li></a>
+		<a href="{:url('index/user/zi')}"><li style="background-color:#BDE4F4">修改资料</li></a>
+	</ul>
+	<div class="img">
+		
+		
+		<form action="{:url('index/user/pass')}" method="post" name="fm" onsubmit="return tou()" style="width:100%;margin:50px 300px;">
+		<span style="margin-left:16px;">原密码：</span><input type="password" name="pass" style="width:250px;height:28px; background:none;border:1px solid #ccc;border-radius:4px;" required="">    <span id="span1"></span><br /></br />
+		
+		<span style="margin-left:16px;">新密码：</span><input type="password" name="qpass" style="width:250px;height:28px; background:none;border:1px solid #ccc;border-radius:4px;" required="" /> <span id="span2"style="position:relative;"><span><br /></br />
+		
+		<span>确认密码：</span><input type="password" name="rpass" style="width:250px;height:28px; background:none;border:1px solid #ccc;border-radius:4px;" required="" /><br /></br />
+		<input type="submit" value="提交" style="position:relative;left:120px; width:100px;height:30px;background-color:#404969;border:none; color:#fff;border-radius:3px;" />
+		</form>
+	</div>
+	
+	</div>
+  
+</div>
+<!-- 底部版权 -->
+<footer>
+  <div class="container">
+    <div class="copyright">
+      <p>Copyright © <span class="update-year">2016</span> Chen Xiaodong - All Rights Reserved&nbsp;&nbsp;|&nbsp;&nbsp;php1702
+        凯哥|坤哥</p>
+    </div>
+  </div>
+</footer>
+<script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/js/ajax.js"></script>
+</body>
+
+<script>
+function tou()
+{
+	//alert('hello');
+	var flag = false;
+	var pass = document.forms['fm'].pass.value;
+	var qpass = document.forms['fm'].qpass.value;
+	var rpass = document.forms['fm'].rpass.value;
+	var span1 = document.getElementById('span1');
+	if(qpass.length < 6){
+		alert('新密码长度不够');
+		return false;
+	}
+	if(qpass != rpass){
+	alert('两次密码不一样');
+	return false;
+	}
+	if(pass != {$re[0]['pwd']}){
+	alert('原密码错误');
+	return false;
+	}
+	
+	//return false;
+	
+	
+}
+
+
+
+</script>
+
+
+</html>
